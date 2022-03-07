@@ -263,10 +263,11 @@ namespace Lab1
             {
                 String Query = "Update Buecher " +
                     "set BookName = '" + BookNameBox.Text + "' , " +
-                    "set Region_nummer = " + RegionBox.Text + " , " +
-                    "set Number_of_pages = " + PagesBox.Text + " , " +
-                    "set Preis = " + PriceBox.Text +
+                    " Region_nummer = " + RegionBox.Text + " , " +
+                    " Number_of_pages = " + PagesBox.Text + " , " +
+                    " Preis = " + PriceBox.Text +
                     " Where AuthorId = " + AuthorBox.Text +";" ;
+                // TODO: make this work idk why update keeps crashing smh
                 MessageBox.Show(Query);
                 using(SqlConnection connection = 
                     new SqlConnection(con))
