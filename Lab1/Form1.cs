@@ -87,6 +87,7 @@ namespace Lab1
                     connection.Open();
                     var AuthorId = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                    // MessageBox.Show(AuthorId.ToString());
+                   //todo parametrizat 
                     String query = "Select * From Buecher Where AuthorId = ' " + AuthorId.ToString() + "'";
                     SqlCommand command = new SqlCommand(query);
 
@@ -237,7 +238,7 @@ namespace Lab1
             String con = "Data Source = DESKTOP-PBGUL9N\\MY_SQL_SERVICE;Initial Catalog=Library;Integrated Security=true";
             if (command == "Delete")
             {
-                String Query = "Delete From Buecher Where Buchnummer = '" + BuchNummerBox.Text + "'";
+                String Query = "Delete From Buecher Where Buchnummer = @Buchnummer";
                 using (SqlConnection connection = 
                     new SqlConnection(con))
                 {
@@ -245,6 +246,7 @@ namespace Lab1
                     {
                         connection.Open();
                         SqlCommand cmd = new SqlCommand(Query, connection);
+                        cmd.Parameters.AddWithValue("@Buchnummer", BuchNummerBox.Text);
                         SqlDataReader reader = cmd.ExecuteReader();
                         connection.Close();
                     }
@@ -257,8 +259,8 @@ namespace Lab1
 
             if(command == "Insert")
             {
-                String Query = "Insert into Buecher Values ('" + BookNameBox.Text + "' , '" + BuchNummerBox.Text + "' , '" +
-                    RegionBox.Text + "' , '" + PagesBox.Text + "' , '" + PriceBox.Text + "' , '" + AuthorBox.Text + "')";
+                String Query = "Insert into Buecher Values (@Bookname"+" , @Buchnummer"+ ", @Region" + ", @Pages"
+                                +" , @Price" + " , @Author" + ")";
                 using (SqlConnection connection =
                     new SqlConnection(con))
                 {
@@ -266,7 +268,14 @@ namespace Lab1
                     {
                         connection.Open();
                         SqlCommand cmd = new SqlCommand(Query, connection);
+                        cmd.Parameters.AddWithValue("@Bookname", BookNameBox.Text);
+                        cmd.Parameters.AddWithValue("@Buchnummer", BuchNummerBox.Text);
+                        cmd.Parameters.AddWithValue("@Region", RegionBox.Text);
+                        cmd.Parameters.AddWithValue("@Pages", PagesBox.Text);
+                        cmd.Parameters.AddWithValue("@Price", PriceBox.Text);
+                        cmd.Parameters.AddWithValue("@Author", AuthorBox.Text);
                         SqlDataReader reader = cmd.ExecuteReader();
+                        //MessageBox.Show(Query);
                         connection.Close();
                     }
                     catch
@@ -279,13 +288,14 @@ namespace Lab1
             if(command == "Update")
             {
                 String Query = "Update Buecher " +
-                    "set BookName = '" + BookNameBox.Text + "' , " +
-                    " Region_nummer = " + RegionBox.Text + " , " +
-                    " Number_of_pages = " + PagesBox.Text + " , " +
-                    " Preis = " + PriceBox.Text +
-                    " Where AuthorId = " + AuthorBox.Text +";" ;
-                // TODO: make this work idk why update keeps crashing smh
-                MessageBox.Show(Query);
+                    "set BookName = @BookName "+ ", " +
+                    " Region_nummer = @Region" + " , " +
+                    " Number_of_pages = @Pages" + " , " +
+                    " Preis = @Price" +
+                    " Where AuthorId = @Author" 
+                    + " and Buchnummer = @Buchnummer"+ ";";
+                
+                //MessageBox.Show(Query);
                 using(SqlConnection connection = 
                     new SqlConnection(con))
                 {
@@ -293,13 +303,23 @@ namespace Lab1
                     {
                         connection.Open();
                         SqlCommand cmd = new SqlCommand(Query, connection);
+                        cmd.Parameters.AddWithValue("@Bookname", BookNameBox.Text);
+                        cmd.Parameters.AddWithValue("@Buchnummer", BuchNummerBox.Text);
+                        cmd.Parameters.AddWithValue("@Region", RegionBox.Text);
+                        cmd.Parameters.AddWithValue("@Pages", PagesBox.Text);
+                        cmd.Parameters.AddWithValue("@Price", PriceBox.Text);
+                        cmd.Parameters.AddWithValue("@Author", AuthorBox.Text);
                         SqlDataReader reader = cmd.ExecuteReader();
                         connection.Close();
+                       
+                       
                     }
                     catch
                     {
                         MessageBox.Show("Sorry an error has occured !");
                     }
+
+                   
                 }
 
             }
