@@ -67,9 +67,8 @@ namespace Lab1
 
                 }
                 catch(Exception ex)
-                {   
-                    Console.Write(ex.Message);
-                    Console.Write("AAAAAAAAAAAA");
+                {
+                    MessageBox.Show("Sorry an error has occured!");
                 }
             }
            
@@ -111,10 +110,20 @@ namespace Lab1
                 {
                     Console.Write("An Error has occured");
                 }
+                try
+                {   if (!(comboBox1.SelectedItem == null))
+                    {
 
-                if(comboBox1.SelectedItem.ToString() == "Insert")
+
+                        if (comboBox1.SelectedItem.ToString() == "Insert")
+                        {
+                            AuthorBox.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+                        }
+                    }
+                }
+                catch
                 {
-                    AuthorBox.Text = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
+
                 }
             }
                
@@ -123,23 +132,31 @@ namespace Lab1
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            String command = comboBox1.SelectedItem.ToString();
-            if(command == "Update")
-            {
-                
-                BookNameBox.Text = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString();
-                BuchNummerBox.Text = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
-                RegionBox.Text = dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString();
-                PagesBox.Text = dataGridView2.Rows[e.RowIndex].Cells[3].Value.ToString();
-                PriceBox.Text = dataGridView2.Rows[e.RowIndex].Cells[4].Value.ToString();
-                AuthorBox.Text = dataGridView2.Rows[e.RowIndex].Cells[5].Value.ToString();
-            }
-
-            if(command == "Delete")
-            {
-                BuchNummerBox.Text = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
-            }
             
+            try
+            {   if (!(comboBox1.SelectedItem == null))
+                {
+                    String command = comboBox1.SelectedItem.ToString();
+                    if (command == "Update")
+                    {
+
+                        BookNameBox.Text = dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString();
+                        BuchNummerBox.Text = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
+                        RegionBox.Text = dataGridView2.Rows[e.RowIndex].Cells[2].Value.ToString();
+                        PagesBox.Text = dataGridView2.Rows[e.RowIndex].Cells[3].Value.ToString();
+                        PriceBox.Text = dataGridView2.Rows[e.RowIndex].Cells[4].Value.ToString();
+                        AuthorBox.Text = dataGridView2.Rows[e.RowIndex].Cells[5].Value.ToString();
+                    }
+
+                    if (command == "Delete")
+                    {
+                        BuchNummerBox.Text = dataGridView2.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    }
+                }
+            }
+            catch{
+                MessageBox.Show("Please select an action from top right");
+            }
 
         }
 
